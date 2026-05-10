@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tag_markdown_source" type="id" />
+    <item name="tag_rendered_markdown" type="id" />
+    <item name="tag_bg_tracker" type="id" />
+</resources>
