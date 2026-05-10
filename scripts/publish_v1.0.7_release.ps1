@@ -43,12 +43,18 @@ if ($remoteNames -notcontains "origin") {
     git push origin $tag
 }
 
-$existing = gh release view $tag --repo $repoFullName 2>$null
-if ($LASTEXITCODE -eq 0 -and $existing) {
+$previousErrorActionPreference = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+gh release view $tag --repo $repoFullName *> $null
+$releaseExists = ($LASTEXITCODE -eq 0)
+$ErrorActionPreference = $previousErrorActionPreference
+
+if ($releaseExists) {
     gh release upload $tag $apkPath --repo $repoFullName --clobber
 } else {
     gh release create $tag $apkPath --repo $repoFullName --title "Vitamin $tag" --notes-file $notesPath
 }
 
 Write-Host "Published $tag to https://github.com/$repoFullName/releases/tag/$tag"
+
 
